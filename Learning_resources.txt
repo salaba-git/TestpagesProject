@@ -1,0 +1,28 @@
+### 1. Links
+## Selenium
+https://testgrid.io/blog/python-selenium-tutorial/ - short introduction to automation testing with Selenium & Python
+https://ikalamtech.com/selenium-with-python/ - extended basic knowledge in one place
+## pytest
+https://qaautomation.expert/2024/04/02/page-object-model-implementation-of-python-with-selenium-pytest/ - POM
+https://www.softwaretestinghelp.com/pytest-tutorial/ - pytest basics
+https://pytest-with-eric.com/#Getting-Started
+## pages for exercises
+https://practice-automation.com/ - basics
+
+### 2. Golden rules
+## Selenium
+Best Practices for Selenium Automation Using Python (from: https://testgrid.io/blog/python-selenium-tutorial/)
+
+Selenium using Python is an effective combination to automate your tests, but it is always better to consider certain
+best practices to make your tests even more effective. Some of these are:
+
+    1. Instead of using time.sleep() or implicit waits, always prefer using explicit waits to synchronize test
+       execution with web page loading.
+    2. Optimize WebDriver management by avoiding launching a new WebDriver instance for every test. Instead, use PyTest
+       fixtures for efficient test execution.
+    3. Run tests in headless mode for faster execution.
+    4. Use Page Object Model (POM) to organize test scripts by separating page elements from the test logic.
+    5. Leverage Selenium Grid for parallel test execution to run tests on multiple browsers and environments, helping
+       scale your test coverage.
+    6. Capture screenshots upon test failures.
+    7. Use logging to log test execution for easy debugging.
