@@ -7,7 +7,7 @@ class Driver:
     """
     def __init__(self):
         self.driver = webdriver.Chrome()
-        self.driver.implicitly_wait(2)
+        self.driver.implicitly_wait(10)
 
     def get_driver(self):
         return self.driver
