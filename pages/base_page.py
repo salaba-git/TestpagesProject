@@ -1,5 +1,8 @@
 from pages.driver import Driver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
+
 
 class BasePage(Driver):
     """Collection of generic methods to use throughout the framework:
@@ -16,6 +19,7 @@ class BasePage(Driver):
 
     def __init__(self):
         super().__init__()
+        self.wait = WebDriverWait(self.driver, 20)
 
     def open_page(self, url):
         return self.driver.get(url)
@@ -123,6 +127,14 @@ class BasePage(Driver):
         """
         self.get_element_by_id(button_id).click()
 
+    def click_button_by_text(self, button_text):
+        """
+
+        :param button_text:
+        :return:
+        """
+        self.get_element_by_xpath(f"//*[contains(text(), '{button_text}')]").click()
+
     def click_cookie_modal(self):
         """Method to automatically click on Cookies popup window when it appears blocking any interaction with
         webpage elements.
@@ -133,10 +145,32 @@ class BasePage(Driver):
         element.send_keys(text)
 
     def collect_links(self):
+        """
+        Method collecting all links by locating a-href associated tags using xpath '//a[@href]'
+
+        :return: dictionary of HTML links as {link_text: href_link, ...}
+        """
         href_elements = self.get_elements_by_xpath("//a[@href]")
         links = {}
         for elem in href_elements:
-            link = elem.get_attribute('href')
-            link_name = elem.text
-            links[link_name] = link
+            links[elem.text] = elem.get_attribute('href')
         return links
+
+    def wait_for_text_load(self, wait_element_id, expected_text):
+        """
+        Method using WebDriverWait (with timeout) to wait for specified text to be displayed under a
+        tag with specified ID
+
+        :param wait_element_id:
+        :param expected_text:
+        :return: result of the wait (element was found or timeout exceeded)
+        """
+        element = (By.ID, wait_element_id)
+        is_text_present = self.wait.until(ec.text_to_be_present_in_element(element, expected_text))
+        return is_text_present
+
+    def wait_for_href_load(self, button_link):
+        element = (By.LINK_TEXT, button_link)
+        is_button_present = self.wait.until(ec.element_to_be_clickable(element))
+        return is_button_present
+
