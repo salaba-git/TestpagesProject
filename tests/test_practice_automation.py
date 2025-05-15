@@ -13,25 +13,25 @@ def test_page_title():
 
 
 subpage_links = {
-    # 'Form Fields': 'form-fields/',
-    # 'Popups': 'popups/',
-    # 'JavaScript Delays': 'javascript-delays/',
+    'Form Fields': 'form-fields/',
+    'Popups': 'popups/',
+    'JavaScript Delays': 'javascript-delays/',
     'Calendars': 'calendars/',
-    #'Sliders': 'slider/',
-    'Modals': 'modals/',
-    'Tables': 'tables/',
+    # 'Sliders': 'slider/',
+    # 'Modals': 'modals/',
+    # 'Tables': 'tables/',
     # 'Window Operations': 'window-operations/',
-    'Hover': 'hover/',
-    'Ads': 'ads/',
-    'Gestures': 'gestures/',
-    'File Download': 'file-download/',
-    'Click Events': 'click-events/',
-    'Spinners': 'spinners/',
+    # 'Hover': 'hover/',
+    # 'Ads': 'ads/',
+    # 'Gestures': 'gestures/',
+    # 'File Download': 'file-download/',
+    # 'Click Events': 'click-events/',
+    # 'Spinners': 'spinners/',
     # 'File Upload': 'file-upload/',
     # 'Iframes': 'iframes/',
     # 'Broken Images': 'broken-images/',
-    'Broken Links': 'broken-links/',
-    'Accordions': 'accordions/'
+    # 'Broken Links': 'broken-links/',
+    # 'Accordions': 'accordions/'
 }
 
 for subpage in subpage_links:
