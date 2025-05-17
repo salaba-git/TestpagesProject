@@ -1,10 +1,9 @@
 from time import sleep
 from pages.driver import Driver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from selenium.common.exceptions import ElementClickInterceptedException
+
 
 class BasePage(Driver):
     """Collection of generic methods to use throughout the framework:
@@ -69,7 +68,7 @@ class BasePage(Driver):
     def get_element_by_link_text(self, href_text):
         """Locator method to find webpage elements based on TAG NAME
 
-        :param element_tag_name:
+        :param href_text:
         :return: 1st element found matching criteria
         """
         return self.driver.find_element(By.LINK_TEXT, href_text)
@@ -154,6 +153,9 @@ class BasePage(Driver):
     def input_text(self, element, text):
         element.send_keys(text)
 
+    def get_attribute_value(self, element):
+        return element.get_attribute('value')
+
     def collect_links(self):
         """
         Method collecting all links by locating a-href associated tags using xpath '//a[@href]'
@@ -188,7 +190,8 @@ class BasePage(Driver):
         return is_button_present
 
     def scroll_to_element(self, element_object):
-        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element_object)
+        js = "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});"
+        self.driver.execute_script(js, element_object)
         sleep(0.5)
 
     def scroll_to_page_bottom_lazyload(self):
