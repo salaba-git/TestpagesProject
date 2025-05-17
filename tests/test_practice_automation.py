@@ -47,7 +47,8 @@ def test_subpage_links():
 def test_buttons_working():
     for button in subpage_links:
         page.open_page(page.url)
-        page.wait_for_text_load_by_text(button)
-        page.scroll_to_element_text(button)
-        page.click_button_by_text(button)
+        page.wait_for_clickable_text(button)
+        button_object = page.get_element_by_text(button)
+        page.scroll_to_element(button_object)
+        page.click_on_text(button)
         assert page.get_url() == subpage_links[button]

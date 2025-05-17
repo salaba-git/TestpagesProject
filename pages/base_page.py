@@ -137,13 +137,13 @@ class BasePage(Driver):
         """
         self.get_element_by_id(button_id).click()
 
-    def click_button_by_text(self, button_text):
+    def click_on_text(self, clickable_text):
         """
 
-        :param button_text:
+        :param clickable_text:
         :return:
         """
-        self.get_element_by_xpath(f"//*[contains(text(), '{button_text}')]").click()
+        self.get_element_by_xpath(f"//*[contains(text(), '{clickable_text}')]").click()
 
     def click_cookie_modal(self):
         """Method to automatically click on Cookies popup window when it appears blocking any interaction with
@@ -179,14 +179,16 @@ class BasePage(Driver):
         is_text_present = self.wait.until(ec.text_to_be_present_in_element(element, expected_text))
         return is_text_present
 
-    def wait_for_text_load_by_text(self, element_text):
+    def get_element_by_text(self, element_text):
+        return self.get_element_by_xpath(f"//*[contains(text(), '{element_text}')]")
+
+    def wait_for_clickable_text(self, element_text):
         element = (By.XPATH, f"//*[contains(text(), '{element_text}')]")
         is_button_present = self.wait.until(ec.element_to_be_clickable(element))
         return is_button_present
 
-    def scroll_to_element_text(self, element_text):
-        element = self.get_element_by_xpath(f"//*[contains(text(), '{element_text}')]")
-        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element)
+    def scroll_to_element(self, element_object):
+        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element_object)
         sleep(0.5)
 
     def scroll_to_page_bottom_lazyload(self):
