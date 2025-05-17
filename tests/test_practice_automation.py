@@ -17,21 +17,21 @@ subpage_links = {
     'Popups': 'popups/',
     'JavaScript Delays': 'javascript-delays/',
     'Calendars': 'calendars/',
-    # 'Sliders': 'slider/',
-    # 'Modals': 'modals/',
-    # 'Tables': 'tables/',
-    # 'Window Operations': 'window-operations/',
-    # 'Hover': 'hover/',
-    # 'Ads': 'ads/',
-    # 'Gestures': 'gestures/',
-    # 'File Download': 'file-download/',
-    # 'Click Events': 'click-events/',
-    # 'Spinners': 'spinners/',
-    # 'File Upload': 'file-upload/',
-    # 'Iframes': 'iframes/',
-    # 'Broken Images': 'broken-images/',
-    # 'Broken Links': 'broken-links/',
-    # 'Accordions': 'accordions/'
+    'Sliders': 'slider/',
+    'Modals': 'modals/',
+    'Tables': 'tables/',
+    'Window Operations': 'window-operations/',
+    'Hover': 'hover/',
+    'Ads': 'ads/',
+    'Gestures': 'gestures/',
+    'File Download': 'file-download/',
+    'Click Events': 'click-events/',
+    'Spinners': 'spinners/',
+    'File Upload': 'file-upload/',
+    'Iframes': 'iframes/',
+    'Broken Images': 'broken-images/',
+    'Broken Links': 'broken-links/',
+    'Accordions': 'accordions/'
 }
 
 for subpage in subpage_links:
@@ -40,20 +40,14 @@ for subpage in subpage_links:
 
 def test_subpage_links():
     links = page.collect_links()
-    for subpage in subpage_links.keys():
+    for subpage in subpage_links:
         assert links[subpage] == subpage_links[subpage]
 
 
 def test_buttons_working():
-    attempts = 3
     for button in subpage_links:
         page.open_page(page.url)
-        for _ in range(attempts):
-            try:
-                page.wait_for_href_load(button)
-                page.click_button_by_text(button)
-                print(button)
-                assert page.get_url() == subpage_links[button]
-                break
-            except ElementClickInterceptedException:
-                sleep(randint(2,6))
+        page.wait_for_text_load_by_text(button)
+        page.scroll_to_element_text(button)
+        page.click_button_by_text(button)
+        assert page.get_url() == subpage_links[button]

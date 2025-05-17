@@ -1,8 +1,10 @@
+from time import sleep
 from pages.driver import Driver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-
+from selenium.common.exceptions import ElementClickInterceptedException
 
 class BasePage(Driver):
     """Collection of generic methods to use throughout the framework:
@@ -63,6 +65,14 @@ class BasePage(Driver):
         :return: 1st element found matching criteria
         """
         return self.driver.find_element(By.TAG_NAME, element_tag_name)
+
+    def get_element_by_link_text(self, href_text):
+        """Locator method to find webpage elements based on TAG NAME
+
+        :param element_tag_name:
+        :return: 1st element found matching criteria
+        """
+        return self.driver.find_element(By.LINK_TEXT, href_text)
 
     def get_element_by_xpath(self, element_xpath):
         """Locator method to find webpage elements based on XPATH
@@ -156,7 +166,7 @@ class BasePage(Driver):
             links[elem.text] = elem.get_attribute('href')
         return links
 
-    def wait_for_text_load(self, wait_element_id, expected_text):
+    def wait_for_text_load_by_id(self, wait_element_id, expected_text):
         """
         Method using WebDriverWait (with timeout) to wait for specified text to be displayed under a
         tag with specified ID
@@ -169,8 +179,22 @@ class BasePage(Driver):
         is_text_present = self.wait.until(ec.text_to_be_present_in_element(element, expected_text))
         return is_text_present
 
-    def wait_for_href_load(self, button_link):
-        element = (By.LINK_TEXT, button_link)
+    def wait_for_text_load_by_text(self, element_text):
+        element = (By.XPATH, f"//*[contains(text(), '{element_text}')]")
         is_button_present = self.wait.until(ec.element_to_be_clickable(element))
         return is_button_present
 
+    def scroll_to_element_text(self, element_text):
+        element = self.get_element_by_xpath(f"//*[contains(text(), '{element_text}')]")
+        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element)
+        sleep(0.5)
+
+    def scroll_to_page_bottom_lazyload(self):
+        last_position = self.driver.execute_script('return window.pageYOffset;')
+        while True:
+            self.driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
+            sleep(5)
+            current_position = self.driver.execute_script('return window.pageYOffset;')
+            if current_position == last_position:
+                break
+            last_position = current_position
