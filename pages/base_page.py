@@ -17,6 +17,8 @@ class BasePage(Driver):
     heading_title_class = 'wp-block-heading'
     links_css_selector = 'a.wp-block-button__link.wp-element-button'
     button_id = ''
+    email_element_id = 'email'
+    textarea_id = 'message'
 
     def __init__(self):
         super().__init__()
@@ -203,3 +205,44 @@ class BasePage(Driver):
             if current_position == last_position:
                 break
             last_position = current_position
+
+    def select_checkbox(self, checkbox_element):
+        is_checked = checkbox_element.is_selected()
+        if not is_checked:
+            self.scroll_to_element(checkbox_element)
+            checkbox_element.click()
+
+    def deselect_checkbox(self, checkbox_element):
+        is_checked = checkbox_element.is_selected()
+        if is_checked:
+            self.scroll_to_element(checkbox_element)
+            checkbox_element.click()
+
+    def select_radio_button(self, radio_element):
+        radio_selected = radio_element.is_selected()
+        if not radio_selected:
+            self.scroll_to_element(radio_element)
+            radio_element.click()
+
+    def deselect_radio_button(self, radio_element):
+        radio_selected = radio_element.is_selected()
+        if radio_selected:
+            self.scroll_to_element(radio_element)
+            radio_element.click()
+
+    def input_email(self, email_address):
+        email_element = self.get_element_by_id(self.email_element_id)
+        self.scroll_to_element(email_element)
+        email_element.send_keys(email_address)
+        return email_element
+
+    def clear_message(self):
+        textarea_element = self.get_element_by_id(self.textarea_id)
+        self.scroll_to_element(textarea_element)
+        textarea_element.clear()
+
+    def input_message(self, message_text):
+        textarea_element = self.get_element_by_id(self.textarea_id)
+        self.scroll_to_element(textarea_element)
+        textarea_element.send_keys(message_text)
+        return textarea_element
